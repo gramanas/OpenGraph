@@ -1,0 +1,3 @@
+// the configured options and settings for OpenGraph
+#define OpenGraph_VERSION_MAJOR @OpenGraph_VERSION_MAJOR@
+#define OpenGraph_VERSION_MINOR @OpenGraph_VERSION_MINOR@

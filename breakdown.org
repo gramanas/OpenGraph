@@ -1,0 +1,31 @@
+#+OPTIONS: toc:nil
+
+** GUI
+*** Canvas
+    Where we draw the graph
+**** TODO CanvasWidget
+     - Inherits QWidget
+     - The main program area
+     - Toggleable grid
+***** Vertex object
+***** Edge object
+***** Background
+***** Labels
+***** Zoom In/Out
+***** Popup information
+      Mouse over a vertex and get it's properties
+***** Propertie view
+      Sublabes inside(?) a vertex with a selected attribute
+**** TODO CanvasLogic
+*** Store graph to table
+**** bool table[n,n];
+**** Vertices as columns
+**** Vertices as rows
+**** true if they connect
+**** false if not
+*** Export graph to graph.opg
+**** Convert to data stream
+**** Write to file
+*** Import graph from graph.opg
+**** 
+** logic

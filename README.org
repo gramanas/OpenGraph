@@ -1,0 +1,9 @@
+* Open Graph editor and analyser
+  An attempt to create a graph editor and analyser
+
+* Libraries
+  Qt
+
+* Platforms
+  Linux
+  
