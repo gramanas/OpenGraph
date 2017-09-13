@@ -1,0 +1,80 @@
+cmake_minimum_required(VERSION 3.0.2)
+project ( OpenGraph )
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# declaring files in your project
+set(PROJECT_SOURCE_DIR ./src)
+
+set ( SOURCES
+ ${PROJECT_SOURCE_DIR}/main.cpp
+ ${PROJECT_SOURCE_DIR}/test.cpp
+)
+
+set ( MOC_HEADERS
+  ${PROJECT_SOURCE_DIR}/test.hpp
+)
+
+
+# Next lines needed for building all Qt projects
+find_package( Qt4 REQUIRED )
+include( ${QT_USE_FILE} )
+add_definitions( ${QT_DEFINITIONS} )
+include_directories( ${CMAKE_BINARY_DIR} )
+
+# Next, using precompiler, compiler and linker
+
+# using Qt meta-system (precompiler)
+QT4_ADD_RESOURCES( RES_SOURCES ${RESOURCES} )
+QT4_WRAP_UI( UI_HEADERS ${UIS} )
+QT4_WRAP_CPP( MOC_SRCS ${MOC_HEADERS} )
+
+# compile
+add_executable( OpenGraph ${SOURCES} ${MOC_SRCS} ${RES_SOURCES} ${UI_HEADERS} )
+
+# build it (link libraries)
+target_link_libraries( OpenGraph ${QT_LIBRARIES} )
+--------------------
+cmake_minimum_required(VERSION 3.0.2)
+project(OpenGraph)
+
+# The version number.
+set(OpenGraph_VERSION_MAJOR 0)
+set(OpenGraph_VERSION_MINOR 1)
+
+# Where is everything
+set(PROJECT_SOURCE_DIR ./src)
+set(PROJECT_BINARY_DIR ./bin)
+
+set(MyProjectLib_src ${PROJECT_SOURCE_DIR}/test.cpp)
+set(MyProjectLib_hdr ${PROJECT_SOURCE_DIR}/test.hpp)
+# set (MyProjectLib_ui  ${PROJECT_SOURCE_DIR}/mainwindow.ui)
+set(MyProjectBin_src ${PROJECT_SOURCE_DIR}/main.cpp)
+
+# qt5_wrap_cpp(MyProjectLib_hdr_moc ${MyProjectLib_hdr})
+#qt5_wrap_ui (MyProjectLib_ui_moc  ${MyProjectLib_ui})
+
+add_library (MyProjectLib SHARED 
+    ${MyProjectLib_src}
+    ${MyProjectLib_hdr_moc}
+ #   ${MyProjectLib_ui_moc}
+)
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file (
+  "${PROJECT_SOURCE_DIR}/version.h.in"
+  "${PROJECT_SOURCE_DIR}/version.h"
+  )
+
+# find_package(Qt5Core REQUIRED)
+# include_directories(${Qt5Core_INCLUDES})
+# set(CMAKE_CXX_FLAGS "${Qt5Core_EXECUTABLE_COMPILE_FLAGS}")
+# find_package( Qt4 REQUIRED )
+# include( ${QT_USE_FILE} )
+# add_definitions( ${QT_DEFINITIONS} )
+# include_directories( ${CMAKE_BINARY_DIR} )
+# include_directories(${PROJECT_SOURCE_DIR})
+
+add_executable(OpenGraph ${MyProjectBin_src})
+
+target_link_libraries(OpenGraph MyProjectLib)
