@@ -1,23 +1,34 @@
-cmake_minimum_required(VERSION 2.8.11)
-project(OpenGraph)
+cmake_minimum_required (VERSION 2.8.12)
+project (MyProject)
 
-# The version number.
-set (OpenGraph_VERSION_MAJOR 0)
-set (OpenGraph_VERSION_MINOR 1)
+find_package (Qt5Widgets)
 
-# Where is everything
 set (PROJECT_SOURCE_DIR ./src)
-set (PROJECT_BINARY_DIR ./bin)
 
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file (
-  "${PROJECT_SOURCE_DIR}/version.h.in"
-  "${PROJECT_SOURCE_DIR}/version.h"
+set (MyProjectLib_src
+  ${PROJECT_SOURCE_DIR}/person.cpp
+  ${PROJECT_SOURCE_DIR}/humanChanger.cpp
+  )
+set (MyProjectLib_hdr
+  ${PROJECT_SOURCE_DIR}/person.hpp
+  ${PROJECT_SOURCE_DIR}/humanChanger.hpp
   )
 
-# add the binary tree to the search path for include files
-# so that we will find version.h
-include_directories("${PROJECT_BINARY_DIR}")
+# set (MyProjectLib_ui  ${PROJECT_SOURCE_DIR}/mainwindow.ui)
+set (MyProjectBin_src ${PROJECT_SOURCE_DIR}/main.cpp)
 
-add_executable(OpenGraph ${PROJECT_SOURCE_DIR}/main.cpp)
+qt5_wrap_cpp(MyProjectLib_hdr_moc ${MyProjectLib_hdr})
+#qt5_wrap_ui (MyProjectLib_ui_moc  ${MyProjectLib_ui})
+
+include_directories (${PROJECT_SOURCE_DIR})
+include_directories (${PROJECT_BINARY_DIR})
+
+add_library (MyProjectLib SHARED 
+    ${MyProjectLib_src}
+    ${MyProjectLib_hdr_moc}
+#    ${MyProjectLib_ui_moc}
+)
+target_link_libraries (MyProjectLib Qt5::Widgets)
+
+add_executable(MyProject ${MyProjectBin_src})
+target_link_libraries (MyProject MyProjectLib)
